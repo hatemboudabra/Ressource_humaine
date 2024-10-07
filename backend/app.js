@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const authRoutes = require('./routes/auth');
 const demandeRoutes = require('./routes/demandes');
+const EvaluationRoutes = require('./routes/Evaluation');
   
 
 dotenv.config();
@@ -14,6 +15,8 @@ app.use(express.json());
 
 app.use('/auth', authRoutes);
 app.use('/demandes', demandeRoutes); 
+app.use('/evaluation', EvaluationRoutes);
+
 
 // Connection to MongoDB and start server
 mongoose.connect(MONGODB_URI).then(() => {

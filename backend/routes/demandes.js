@@ -50,7 +50,32 @@ router.put('/:id/status', authenticate, async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 });
-
+router.patch('/update/:id/:status', async (req, res) => {
+    try {
+      const demandeId = req.params.id;
+      const status = req.params.status;
+  
+      // Valider le statut
+      if (!['Pending', 'Approved', 'Rejected'].includes(status)) {
+        return res.status(400).json({ success: false, message: 'Statut invalide' });
+      }
+  
+      // Mettre à jour la demande de congé
+      const updatedDemandeConge = await DemandeConge.findByIdAndUpdate(
+        demandeId,
+        { status },
+        { new: true }
+      );
+  
+      if (!updatedDemandeConge) {
+        return res.status(404).json({ success: false, message: 'Demande non trouvée' });
+      }
+  
+      res.status(200).json({ success: true, data: updatedDemandeConge });
+    } catch (error) {
+      res.status(400).json({ success: false, message: error.message });
+    }
+  });
 // Obtenir les demandes de congé de l'utilisateur connecté
 router.get('/my', authenticate, async (req, res) => {
     try {
