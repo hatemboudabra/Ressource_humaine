@@ -2,7 +2,8 @@ const express = require('express');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const authRoutes = require('./routes/auth');
-
+const demandeRoutes = require('./routes/demandes');
+  
 
 dotenv.config();
 const MONGODB_URI = process.env.MONGODB_URI;
@@ -12,6 +13,8 @@ const app = express();
 app.use(express.json());
 
 app.use('/auth', authRoutes);
+app.use('/demandes', demandeRoutes); 
+
 // Connection to MongoDB and start server
 mongoose.connect(MONGODB_URI).then(() => {
     console.log('connected to MongoDb');
