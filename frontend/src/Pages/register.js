@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import UserService from '../Services/UserService';
 import toast, { Toaster } from 'react-hot-toast';
+import { useNavigate } from 'react-router-dom';
 
 const Register = () => {
+    const navigate= useNavigate()
     const [username,setusername ] = useState('')
     const [email,setemail ] = useState('')
     const [password,setpassword ] = useState('')
@@ -29,6 +31,8 @@ const Register = () => {
             setemail('');
             setusername('')
             setpassword('')
+            navigate("/login")
+
 
         }catch(err){
             console.log(err)
