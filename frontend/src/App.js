@@ -3,6 +3,8 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import Register from './Pages/register';
 import Login from './Pages/Login';
 import Home from './Pages/Home';
+import PrivateRoute from './components/PrivateRoute'; // Importer depuis le dossier components
+import Profile from './Pages/Profile';
 
 function App() {
   const router = createBrowserRouter([
@@ -22,10 +24,13 @@ function App() {
 
     },
     {
-      path : '/home',
-      element : <Home></Home>
-
-    }
+      path: '/home',
+      element: <PrivateRoute element={<Home />} />, // Protéger cette route
+    },
+    {
+      path: '/profile',
+      element: <PrivateRoute element={<Profile />} />, // Route protégée pour Profile
+    },
   ])
   return (
    <>
