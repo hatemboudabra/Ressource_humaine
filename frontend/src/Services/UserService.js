@@ -11,7 +11,7 @@ UserService.register = async function (data) {
     }
   };
   UserService.signin = async function (data) {
-    try {
+    try { 
       const response = await axios.post('http://localhost:5000/auth/login', data);
       return response.data; 
     } catch (error) {
