@@ -7,7 +7,9 @@ import PrivateRoute from './components/PrivateRoute'; // Importer depuis le doss
 import Profile from './Pages/Profile';
 import Dashboard from './Pages/Dashboard'; // Importer Dashboard
 import DemandeConge from './Pages/DemandeCongeForm'; // Importer DemandeConge
-
+import SaisieHeures from './Pages/FeuilleTemps/SaisieHeures'; // Ajouter la route pour saisir les heures
+import Consultation from './Pages/FeuilleTemps/Consultation'; // Ajouter la route pour consulter les feuilles de temps
+import Modifier from './Pages/FeuilleTemps/Modifier'; // Ajouter la route pour modifier les heures  
 function App() {
   const router = createBrowserRouter([
     {
@@ -37,6 +39,18 @@ function App() {
     {
       path: '/demande-conge',
       element: <PrivateRoute element={<DemandeConge />} />, // Route protégée pour Demande de Congé
+    },
+    {
+      path: '/feuille/saisie',
+      element: <PrivateRoute element={<SaisieHeures />} />, // Route protégée pour saisir les heures
+    },
+    {
+      path: '/feuille/consultation',
+      element: <PrivateRoute element={<Consultation />} />, // Route protégée pour consulter les feuilles de temps
+    },
+    {
+      path: '/feuille/modifier/:id',
+      element: <PrivateRoute element={<Modifier />} />, // Route protégée pour modifier une feuille de temps
     },
   ]);
 

@@ -1,6 +1,7 @@
 // src/pages/Profile.js
 import React, { useState, useEffect } from 'react';
 import { getProfile, updateProfile } from '../Services/profileService';
+import { useNavigate } from 'react-router-dom'; // Importation de useNavigate
 import '../Profile.css'; // Importer un fichier CSS pour la personnalisation
 
 const Profile = () => {
@@ -11,6 +12,8 @@ const Profile = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
+
+  const navigate = useNavigate(); // Initialisation de useNavigate
 
   // Récupérer les informations de l'utilisateur au chargement du composant
   useEffect(() => {
@@ -46,6 +49,10 @@ const Profile = () => {
     try {
       await updateProfile(userInfo); // Utilisation de la fonction du ProfileService
       setSuccessMessage('Informations mises à jour avec succès');
+      // Rediriger vers la page d'accueil après la mise à jour
+      setTimeout(() => {
+        navigate('/home'); // Redirection vers la page home
+      }, 1000); // Attente de 1 seconde pour que l'utilisateur puisse voir le message de succès
     } catch (error) {
       setError('Erreur lors de la mise à jour');
     }
