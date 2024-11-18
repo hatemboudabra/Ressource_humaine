@@ -70,38 +70,7 @@ router.get('/all', authenticate, async (req, res) => {
     }
 });
 
-/**
- * @swagger
- * /demandes/{id}/status:
- *   put:
- *     summary: Approver ou rejeter une demande de congé
- *     security:
- *       - Bearer: []
- *     parameters:
- *       - name: id
- *         in: path
- *         description: ID de la demande de congé
- *         required: true
- *         schema:
- *           type: string
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               status:
- *                 type: string
- *                 enum: [Approved, Rejected]
- *     responses:
- *       200:
- *         description: Demande mise à jour avec succès
- *       404:
- *         description: Demande non trouvée
- *       500:
- *         description: Erreur du serveur
- */
+
 router.put('/:id/status', authenticate, async (req, res) => {
     try {
         const { status } = req.body; // 'Approved' ou 'Rejected'
@@ -198,5 +167,22 @@ router.get('/my', authenticate, async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 });
+
+router.delete('/delete/:id', authenticate, async (req, res) => {
+    try {
+        const demandeId = req.params.id;
+        const demande = await DemandeConge.findByIdAndDelete(demandeId);
+
+        if (!demande) {
+            return res.status(404).json({ message: 'Demande non trouvée.' });
+        }
+
+        res.status(200).json({ message: 'Demande supprimée avec succès.', demande });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+    
+
 
 module.exports = router;
