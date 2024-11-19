@@ -28,7 +28,7 @@ const getAll = async () => {
   const token = getToken();
   
   const response = await axios.get(
-    `${API_URL}/getall`,
+    `${API_URL}/getall`, // Récupère toutes les feuilles de temps
     {
       headers: {
         Authorization: `Bearer ${token}`, // Ajouter le token dans l'en-tête
@@ -43,7 +43,7 @@ const getById = async (id) => {
   const token = getToken();
   
   const response = await axios.get(
-    `${API_URL}/${id}`,
+    `${API_URL}/${id}`, // Récupère la feuille de temps par ID
     {
       headers: {
         Authorization: `Bearer ${token}`, // Ajouter le token dans l'en-tête
@@ -59,7 +59,7 @@ const update = async (id, feuilleTempsData) => {
   
   const response = await axios.put(
     `${API_URL}/${id}`, 
-    feuilleTempsData,
+    feuilleTempsData, // Met à jour la feuille de temps avec de nouvelles données
     {
       headers: {
         Authorization: `Bearer ${token}`, // Ajouter le token dans l'en-tête
@@ -69,12 +69,32 @@ const update = async (id, feuilleTempsData) => {
   return response.data;
 };
 
+const getByUserId = async (userId) => {
+  const token = getToken();
+  try {
+    const response = await axios.get(
+      `${API_URL}/byuser/${userId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        }
+      }
+    );
+    console.log('Réponse complète:', response);
+    return response.data; // Assurez-vous que cela retourne les données nécessaires
+  } catch (error) {
+    console.error('Erreur dans getByUserId:', error);
+    throw error; // Lance l'erreur pour qu'elle soit capturée dans le composant
+  }
+};
+
+
 // Supprimer une feuille de temps
 const remove = async (id) => {
   const token = getToken();
   
   const response = await axios.delete(
-    `${API_URL}/${id}`,
+    `${API_URL}/${id}`, // Supprime la feuille de temps par ID
     {
       headers: {
         Authorization: `Bearer ${token}`, // Ajouter le token dans l'en-tête
@@ -88,6 +108,7 @@ export default {
   add,
   getAll,
   getById,
+  getByUserId,
   update,
   remove,
 };

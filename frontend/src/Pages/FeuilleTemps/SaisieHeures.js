@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { jwtDecode } from 'jwt-decode'; // Assurez-vous d'importer jwtDecode
+import {jwtDecode} from 'jwt-decode';  // Correction de l'import
 import feuilleTempsService from '../../Services/FeuilleTempsService';  // Importer le service
 import { useNavigate } from 'react-router-dom'; // Importer useNavigate
 import '../../assets/styles/SaisieHeures.css'; // Importer le fichier CSS
@@ -53,7 +53,9 @@ function SaisieHeures() {
       console.log(response);
 
       // Rediriger vers la page de consultation après soumission
-      navigate('/feuille/consultation');  // Redirection vers la page de consultation
+      setTimeout(() => {
+        navigate('/feuille/consultation');  // Redirection vers la page de consultation
+      }, 1500);  // Attendre 1,5 secondes avant la redirection
     } catch (error) {
       console.error('Erreur lors de la soumission:', error.response ? error.response.data : error.message);
       setMessage('Erreur lors de la soumission de la feuille de temps');
