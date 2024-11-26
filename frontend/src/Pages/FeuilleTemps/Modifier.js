@@ -1,7 +1,7 @@
-// src/Pages/FeuilleTemps/Modifier.js
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import feuilleTempsService from '../../Services/FeuilleTempsService'; // Utiliser le service
 import { useParams, useNavigate } from 'react-router-dom';
+import '../../assets/styles/Modifier.css'; // Importer le fichier CSS
 
 function Modifier() {
   const [heures, setHeures] = useState('');
@@ -12,9 +12,9 @@ function Modifier() {
   useEffect(() => {
     const fetchFeuilleTemps = async () => {
       try {
-        const response = await axios.get(`/feuille/${id}`);
-        setHeures(response.data.heuresTravaillees);
-        setDate(response.data.date);
+        const response = await feuilleTempsService.getById(id); // Utiliser le service
+        setHeures(response.heuresTravaillees);
+        setDate(response.date);
       } catch (error) {
         console.error('Erreur de récupération de la feuille de temps', error);
       }
@@ -26,7 +26,7 @@ function Modifier() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.put(`/feuille/${id}`, { heuresTravaillees: heures, date: date });
+      await feuilleTempsService.update(id, { heuresTravaillees: heures, date: date }); // Utiliser le service
       navigate('/feuille/consultation'); // Redirige vers la page de consultation
     } catch (error) {
       console.error('Erreur de mise à jour de la feuille de temps', error);
@@ -34,28 +34,30 @@ function Modifier() {
   };
 
   return (
-    <div>
-      <h2>Modifier les heures de travail</h2>
+    <div className="modifier-container">
+      <h2 className="form-title">Modifier les heures de travail</h2>
       <form onSubmit={handleSubmit}>
-        <div>
-          <label>Heures travaillées:</label>
+        <div className="input-group">
+          <label className="input-label">Heures travaillées:</label>
           <input
             type="number"
             value={heures}
             onChange={(e) => setHeures(e.target.value)}
+            className="input-field"
             required
           />
         </div>
-        <div>
-          <label>Date:</label>
+        <div className="input-group">
+          <label className="input-label">Date:</label>
           <input
             type="date"
             value={date}
             onChange={(e) => setDate(e.target.value)}
+            className="input-field"
             required
           />
         </div>
-        <button type="submit">Modifier</button>
+        <button type="submit" className="submit-button">Modifier</button>
       </form>
     </div>
   );

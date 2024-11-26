@@ -20,6 +20,21 @@ router.get('/profile', authenticate, async (req, res) => {
     }
 });
 
+router.get('/all', authenticate, async (req, res) => {
+    try {
+        const users = await User.find().select('-password'); // Récupérer tous les utilisateurs, sans mot de passe
+
+        if (users.length === 0) {
+            return res.status(404).json({ message: 'Aucun utilisateur trouvé' });
+        }
+
+        res.status(200).json(users); // Retourner tous les utilisateurs
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Erreur serveur', error: error.message });
+    }
+});
+
 
 /**
  * @swagger

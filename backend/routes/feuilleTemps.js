@@ -103,4 +103,33 @@ router.get('/byuser/:userId', authenticate, async (req, res) => {
     }
 });
 
+
+router.put('/:id/status', async (req, res) => {
+    const { id } = req.params;
+    const { statut } = req.body;
+
+    // Vérifiez si le statut est valide
+    if (!['En attente', 'Validé'].includes(statut)) {
+        return res.status(400).json({ message: 'Statut invalide' });
+    }
+
+    try {
+        // Mise à jour de la feuille de temps
+        const feuilleTemps = await FeuilleTemps.findByIdAndUpdate(
+            id,
+            { statut },
+            { new: true } // Retourne le document mis à jour
+        );
+
+        if (!feuilleTemps) {
+            return res.status(404).json({ message: 'Feuille de temps non trouvée' });
+        }
+
+        res.status(200).json(feuilleTemps);
+    } catch (error) {
+        console.error('Erreur lors de la mise à jour du statut:', error);
+        res.status(500).json({ message: 'Erreur serveur' });
+    }
+});
+
 module.exports = router;

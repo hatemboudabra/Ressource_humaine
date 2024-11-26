@@ -4,34 +4,7 @@ const DemandeConge = require('../models/DemandeConge');
 const User = require('../models/User'); // Pour les références des utilisateurs
 const authenticate = require('../midlware/authenticate'); // Middleware d'authentification
 
-/**
- * @swagger
- * /demandes/create:
- *   post:
- *     summary: Créer une nouvelle demande de congé
- *     security:
- *       - Bearer: []
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               startDate:
- *                 type: string
- *                 format: date
- *               endDate:
- *                 type: string
- *                 format: date
- *               reason:
- *                 type: string
- *     responses:
- *       201:
- *         description: Demande de congé créée
- *       400:
- *         description: Erreur de validation
- */
+
 router.post('/create', authenticate, async (req, res) => {
     try {
         const { startDate, endDate, reason } = req.body;
@@ -48,27 +21,20 @@ router.post('/create', authenticate, async (req, res) => {
     }
 });
 
-/**
- * @swagger
- * /demandes/all:
- *   get:
- *     summary: Récupérer toutes les demandes de congé (pour l'administrateur/manager)
- *     security:
- *       - Bearer: []
- *     responses:
- *       200:
- *         description: Liste des demandes de congé
- *       500:
- *         description: Erreur du serveur
- */
-router.get('/all', authenticate, async (req, res) => {
+router.get('/all', authenticate, async (req, res) => {  
     try {
-        const demandes = await DemandeConge.find().populate('user', 'username'); // Populate pour avoir les détails de l'utilisateur
+        // Vérifiez si l'utilisateur a un rôle admin ou manager
+        if (req.user.Roles !== 'Admin') {
+            return res.status(403).json({ message: 'Accès interdit' });
+        }
+
+        const demandes = await DemandeConge.find().populate('user', 'username'); // populate pour avoir les détails de l'utilisateur
         res.status(200).json(demandes);
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
 });
+
 
 
 router.put('/:id/status', authenticate, async (req, res) => {
@@ -78,6 +44,11 @@ router.put('/:id/status', authenticate, async (req, res) => {
 
         if (!demande) {
             return res.status(404).json({ message: 'Demande non trouvée.' });
+        }
+
+        // Vérifiez si l'utilisateur est un admin ou manager
+        if (req.user.Roles !== 'Admin' ) {
+            return res.status(403).json({ message: 'Accès interdit' });
         }
 
         demande.status = status;
@@ -90,61 +61,6 @@ router.put('/:id/status', authenticate, async (req, res) => {
     }
 });
 
-/**
- * @swagger
- * /demandes/update/{id}/{status}:
- *   patch:
- *     summary: Mettre à jour le statut d'une demande de congé
- *     parameters:
- *       - name: id
- *         in: path
- *         description: ID de la demande de congé
- *         required: true
- *         schema:
- *           type: string
- *       - name: status
- *         in: path
- *         description: Statut à définir ('Pending', 'Approved', 'Rejected')
- *         required: true
- *         schema:
- *           type: string
- *           enum: [Pending, Approved, Rejected]
- *     responses:
- *       200:
- *         description: Demande mise à jour
- *       400:
- *         description: Statut invalide
- *       404:
- *         description: Demande non trouvée
- *       500:
- *         description: Erreur du serveur
- */
-router.patch('/update/:id/:status', async (req, res) => {
-    try {
-      const demandeId = req.params.id;
-      const status = req.params.status;
-  
-      // Valider le statut
-      if (!['Pending', 'Approved', 'Rejected'].includes(status)) {
-        return res.status(400).json({ success: false, message: 'Statut invalide' });
-      }
-  
-      // Mettre à jour la demande de congé
-      const updatedDemandeConge = await DemandeConge.findByIdAndUpdate(
-        demandeId,
-        { status },
-        { new: true }
-      );
-  
-      if (!updatedDemandeConge) {
-        return res.status(404).json({ success: false, message: 'Demande non trouvée' });
-      }
-  
-      res.status(200).json({ success: true, data: updatedDemandeConge });
-    } catch (error) {
-      res.status(400).json({ success: false, message: error.message });
-    }
-  });
 
 /**
  * @swagger
@@ -181,8 +97,47 @@ router.delete('/delete/:id', authenticate, async (req, res) => {
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
+
 });
-    
+
+/**
+ * @swagger
+ * /demandes/{id}:
+ *   get:
+ *     summary: Récupérer les détails d'une demande de congé par ID
+ *     security:
+ *       - Bearer: []
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         description: ID de la demande de congé
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Détails de la demande de congé
+ *       404:
+ *         description: Demande non trouvée
+ *       500:
+ *         description: Erreur du serveur
+ */
+router.get('/:id', authenticate, async (req, res) => {
+    try {
+        const demandeId = req.params.id;
+
+        const demande = await DemandeConge.findById(demandeId).populate('user', 'username email'); // Inclut les détails de l'utilisateur
+        if (!demande) {
+            return res.status(404).json({ message: 'Demande non trouvée.' });
+        }
+
+        res.status(200).json(demande);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
+
 
 
 module.exports = router;

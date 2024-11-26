@@ -1,8 +1,7 @@
-// src/pages/Profile.js
 import React, { useState, useEffect } from 'react';
 import { getProfile, updateProfile } from '../Services/profileService';
-import { useNavigate } from 'react-router-dom'; // Importation de useNavigate
-import '../Profile.css'; // Importer un fichier CSS pour la personnalisation
+import { useNavigate } from 'react-router-dom';
+import '../Profile.css'; // Assurez-vous que le chemin est correct
 
 const Profile = () => {
   const [userInfo, setUserInfo] = useState({
@@ -13,13 +12,12 @@ const Profile = () => {
   const [error, setError] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
 
-  const navigate = useNavigate(); // Initialisation de useNavigate
+  const navigate = useNavigate();
 
-  // Récupérer les informations de l'utilisateur au chargement du composant
   useEffect(() => {
     const fetchUserInfo = async () => {
       try {
-        const data = await getProfile(); // Utilisation de la fonction du ProfileService
+        const data = await getProfile();
         setUserInfo(data);
         setLoading(false);
       } catch (err) {
@@ -31,7 +29,6 @@ const Profile = () => {
     fetchUserInfo();
   }, []);
 
-  // Fonction pour gérer les changements dans les champs du formulaire
   const handleChange = (e) => {
     const { name, value } = e.target;
     setUserInfo((prevInfo) => ({
@@ -40,25 +37,25 @@ const Profile = () => {
     }));
   };
 
-  // Fonction pour soumettre le formulaire
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
     setSuccessMessage('');
 
     try {
-      await updateProfile(userInfo); // Utilisation de la fonction du ProfileService
+      await updateProfile(userInfo);
       setSuccessMessage('Informations mises à jour avec succès');
-      // Rediriger vers la page d'accueil après la mise à jour
       setTimeout(() => {
-        navigate('/home'); // Redirection vers la page home
-      }, 1000); // Attente de 1 seconde pour que l'utilisateur puisse voir le message de succès
+        navigate('/home');
+      }, 1000);
     } catch (error) {
       setError('Erreur lors de la mise à jour');
     }
   };
 
-  if (loading) return <div className="loading">Chargement...</div>;
+  if (loading) {
+    return <div className="loading">Chargement...</div>;
+  }
 
   return (
     <div className="profile-container">
@@ -67,7 +64,7 @@ const Profile = () => {
       {successMessage && <p className="success-message">{successMessage}</p>}
       <form onSubmit={handleSubmit} className="profile-form">
         <div className="form-group">
-          <label htmlFor="username">Nom d'utilisateur:</label>
+          <label htmlFor="username">Nom d'utilisateur :</label>
           <input
             type="text"
             id="username"
@@ -78,7 +75,7 @@ const Profile = () => {
           />
         </div>
         <div className="form-group">
-          <label htmlFor="email">Email:</label>
+          <label htmlFor="email">Email :</label>
           <input
             type="email"
             id="email"
@@ -88,7 +85,9 @@ const Profile = () => {
             required
           />
         </div>
-        <button type="submit" className="submit-button">Mettre à jour</button>
+        <button type="submit" className="submit-button">
+          Mettre à jour
+        </button>
       </form>
     </div>
   );

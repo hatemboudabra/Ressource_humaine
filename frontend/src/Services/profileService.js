@@ -31,3 +31,19 @@ export const updateProfile = async (userInfo) => {
     throw new Error('Erreur lors de la mise à jour');
   }
 };
+
+
+// Fonction pour récupérer tous les utilisateurs
+export const getAllUsers = async () => {
+  try {
+    const token = localStorage.getItem('token');
+    const response = await axios.get(`${API_URL}/all`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    throw new Error('Erreur lors de la récupération des utilisateurs');
+  }
+};

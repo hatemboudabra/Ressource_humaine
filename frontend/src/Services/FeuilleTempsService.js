@@ -37,6 +37,22 @@ const getAll = async () => {
   );
   return response.data;
 };
+// Mettre à jour le statut d'une feuille de temps
+const updateStatus = async (id, statut) => {
+  const token = getToken();
+  
+  const response = await axios.put(
+    `${API_URL}/${id}/status`, // URL de la route pour mettre à jour le statut
+    { statut }, // Envoi uniquement le statut à mettre à jour
+    {
+      headers: {
+        Authorization: `Bearer ${token}`, // Ajouter le token dans l'en-tête
+      }
+    }
+  );
+  return response.data;
+};
+
 
 // Récupérer une feuille de temps par ID
 const getById = async (id) => {
@@ -110,5 +126,6 @@ export default {
   getById,
   getByUserId,
   update,
+  updateStatus, 
   remove,
 };
