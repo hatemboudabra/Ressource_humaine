@@ -40,52 +40,32 @@ router.post('/register', async (req, res) => {
         res.status(400).send(error.message);
     }
 });
-
-/**
- * @swagger
- * /auth/login:
- *   post:
- *     summary: Connecter un utilisateur existant
- *     description: Cette route permet de connecter un utilisateur existant en vérifiant son mot de passe et en générant un token JWT.
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               username:
- *                 type: string
- *               password:
- *                 type: string
- *     responses:
- *       200:
- *         description: Connexion réussie et token généré
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 token:
- *                   type: string
- *       401:
- *         description: Mot de passe incorrect
- *       404:
- *         description: Utilisateur non trouvé
- */
 router.post('/login', async (req, res) => {
     try {
         const { username, password } = req.body;
         const user = await User.findOne({ username: username });
+        
         if (!user) {
-            return res.status(404).send('user not found');
+            return res.status(404).send('User not found');
         }
+
         const isPasswordMatch = await bcrypt.compare(password, user.password);
+        
         if (!isPasswordMatch) {
-            return res.status(401).send('password invalid');
+            return res.status(401).send('Password is invalid');
         }
-        const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET);
-        res.send({ token: token });
+
+        // Crée le token avec l'ID de l'utilisateur et son rôle
+        const token = jwt.sign({ _id: user._id, role: user.Roles }, process.env.JWT_SECRET);
+
+        // Renvoie le token et les détails de l'utilisateur
+        res.send({
+            token: token,
+            user: {
+                id: user._id,
+                role: user.Roles  // Utilise 'Roles' ici aussi
+            }
+        });
     } catch (err) {
         res.status(400).send(err.message);
     }

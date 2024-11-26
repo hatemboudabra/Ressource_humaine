@@ -1,0 +1,31 @@
+/* AdminHome.css */
+.admin-home {
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.admin-home h1 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+}
+
+.admin-links ul {
+    list-style: none;
+    padding: 0;
+}
+
+.admin-links li {
+    margin: 10px 0;
+}
+
+.admin-links a {
+    font-size: 1.2rem;
+    color: #007bff;
+    text-decoration: none;
+}
+
+.admin-links a:hover {
+    text-decoration: underline;
+}

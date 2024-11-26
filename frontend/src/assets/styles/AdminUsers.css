@@ -1,0 +1,64 @@
+/* src/Pages/AdminUsers.css */
+.admin-users {
+    padding: 20px;
+    font-family: Arial, sans-serif;
+  }
+  
+  h1 {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+  
+  .reload-btn {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer;
+    margin-bottom: 20px;
+  }
+  
+  .reload-btn:hover {
+    background-color: #45a049;
+  }
+  
+  .table-container {
+    overflow-x: auto;
+  }
+  
+  .users-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+  }
+  
+  .users-table th,
+  .users-table td {
+    padding: 10px;
+    text-align: left;
+    border: 1px solid #ddd;
+  }
+  
+  .users-table th {
+    background-color: #f2f2f2;
+  }
+  
+  .loading,
+  .error {
+    font-size: 16px;
+    color: #ff0000;
+    margin: 10px 0;
+  }
+  
+  .error button {
+    background-color: #ff6347;
+    color: white;
+    padding: 5px 10px;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .error button:hover {
+    background-color: #e53e30;
+  }
+  
