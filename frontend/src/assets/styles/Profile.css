@@ -1,72 +1,80 @@
 .profile-container {
   max-width: 600px;
   margin: 50px auto;
-  padding: 20px;
-  background-color: #f9f9f9;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 30px;
+  background-color: #ffffff; /* Couleur de fond plus claire */
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); /* Ombre plus douce */
+  transition: box-shadow 0.3s;
+}
+
+.profile-container:hover {
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2); /* Effet de survol */
 }
 
 h2 {
   text-align: center;
-  margin-bottom: 20px;
-  color: #333;
-  font-size: 24px;
+  margin-bottom: 25px;
+  color: #2c3e50; /* Couleur de texte plus sombre */
+  font-size: 26px;
+  font-weight: 600;
 }
 
 .form-group {
-  margin-bottom: 20px;
+  margin-bottom: 25px;
 }
 
 label {
   display: block;
-  margin-bottom: 5px;
-  font-weight: bold;
-  color: #555;
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: #34495e; /* Couleur de texte plus sombre */
 }
 
 input {
   width: 100%;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+  padding: 12px;
+  border: 1px solid #bdc3c7; /* Couleur de bordure plus douce */
+  border-radius: 5px;
   box-sizing: border-box;
   font-size: 16px;
+  transition: border-color 0.3s;
 }
 
 input:focus {
-  border-color: #007bff;
+  border-color: #3498db; /* Couleur de focus plus vive */
   outline: none;
 }
 
 .submit-button {
   display: block;
   width: 100%;
-  padding: 12px;
-  background-color: #007bff;
+  padding: 14px;
+  background-color: #3498db; /* Couleur de bouton plus vive */
   color: #fff;
   border: none;
-  border-radius: 4px;
+  border-radius: 5px;
   cursor: pointer;
   font-size: 18px;
+  font-weight: 600;
   transition: background-color 0.3s;
 }
 
 .submit-button:hover {
-  background-color: #0056b3;
+  background-color: #2980b9; /* Couleur de survol */
 }
 
 .error-message {
-  color: #d9534f;
+  color: #e74c3c; /* Rouge plus vif pour les erreurs */
   text-align: center;
-  margin-bottom: 10px;
+  margin-bottom: 15px;
   font-size: 16px;
 }
 
 .success-message {
-  color: #5cb85c;
+  color: #2ecc71; /* Vert plus vif pour le succès */
   text-align: center;
-  margin-bottom: 10px;
+  margin-bottom: 15px;
   font-size: 16px;
 }
 

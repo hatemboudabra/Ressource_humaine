@@ -1,64 +1,110 @@
-/* src/Pages/AdminUsers.css */
+/* Global styles */
 .admin-users {
-    padding: 20px;
-    font-family: Arial, sans-serif;
-  }
-  
-  h1 {
-    font-size: 24px;
-    margin-bottom: 20px;
-  }
-  
-  .reload-btn {
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    padding: 10px 15px;
-    cursor: pointer;
-    margin-bottom: 20px;
-  }
-  
-  .reload-btn:hover {
-    background-color: #45a049;
-  }
-  
-  .table-container {
-    overflow-x: auto;
-  }
-  
-  .users-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 10px;
-  }
-  
-  .users-table th,
-  .users-table td {
-    padding: 10px;
-    text-align: left;
-    border: 1px solid #ddd;
-  }
-  
-  .users-table th {
-    background-color: #f2f2f2;
-  }
-  
-  .loading,
-  .error {
-    font-size: 16px;
-    color: #ff0000;
-    margin: 10px 0;
-  }
-  
-  .error button {
-    background-color: #ff6347;
-    color: white;
-    padding: 5px 10px;
-    border: none;
-    cursor: pointer;
-  }
-  
-  .error button:hover {
-    background-color: #e53e30;
-  }
-  
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+h1 {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+/* Boutons */
+.btn {
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.btn:hover {
+  opacity: 0.9;
+}
+
+.reload-btn {
+  background-color: #4CAF50;
+  color: white;
+  margin-bottom: 20px;
+}
+
+.reload-btn:hover {
+  background-color: #45a049;
+}
+
+.delete-button {
+  background-color: #e74c3c;
+  color: white;
+}
+
+.delete-button:hover {
+  background-color: #c0392b;
+}
+
+.confirm-button {
+  background-color: green;
+  color: white;
+}
+
+.cancel-button {
+  background-color: gray;
+  color: white;
+  margin-left: 10px;
+}
+
+/* Messages de chargement et d'erreur */
+.loading,
+.error {
+  font-size: 16px;
+  margin: 10px 0;
+}
+
+.error {
+  color: #ff0000;
+}
+
+.error button {
+  background-color: #ff6347;
+  color: white;
+  padding: 5px 10px;
+}
+
+.error button:hover {
+  background-color: #e53e30;
+}
+
+/* Table */
+.table-container {
+  overflow-x: auto;
+}
+
+.users-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+.users-table th,
+.users-table td {
+  padding: 10px;
+  text-align: left;
+  border: 1px solid #ddd;
+}
+
+.users-table th {
+  background-color: #f2f2f2;
+}
+
+/* Rôles spécifiques */
+.users-table .admin {
+  font-weight: bold;
+  color: red;
+}
+
+.users-table .employe {
+  color: green;
+}
+
+.users-table .rh {
+  color: blue;
+}
