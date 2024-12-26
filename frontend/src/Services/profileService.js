@@ -47,3 +47,18 @@ export const getAllUsers = async () => {
     throw new Error('Erreur lors de la récupération des utilisateurs');
   }
 };
+
+export const deleteUser = async (userId) => {
+  try {
+    const token = localStorage.getItem('token');
+    const response = await axios.delete(`${API_URL}/delete/${userId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    throw new Error('Erreur lors de la suppression de l\'utilisateur');
+  }
+};
+

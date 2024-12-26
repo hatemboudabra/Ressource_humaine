@@ -104,4 +104,28 @@ router.put('/profile', authenticate, async (req, res) => {
     }
 });
 
+// Route pour supprimer un utilisateur
+router.delete('/delete/:id', authenticate, async (req, res) => {
+    try {
+        const userId = req.params.id;
+
+        // Vérification si l'utilisateur a les droits pour supprimer (par exemple, rôle Admin)
+        if (req.user.Roles !== 'Admin') {
+            return res.status(403).json({ message: 'Vous n\'êtes pas autorisé à effectuer cette action.' });
+        }
+
+        // Trouver et supprimer l'utilisateur
+        const user = await User.findByIdAndDelete(userId);
+
+        if (!user) {
+            return res.status(404).json({ message: 'Utilisateur non trouvé.' });
+        }
+
+        res.status(200).json({ message: 'Utilisateur supprimé avec succès.' });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Erreur serveur', error: error.message });
+    }
+});
+
 module.exports = router;
